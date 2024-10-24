@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/otp_verification_controller.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,13 +8,28 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpValidationScreen extends StatefulWidget {
-  const OtpValidationScreen({super.key});
+  const OtpValidationScreen({super.key,});
 
   @override
   State<OtpValidationScreen> createState() => _OtpValidationScreenState();
 }
 
 class _OtpValidationScreenState extends State<OtpValidationScreen> {
+  final TextEditingController _pinTEc = TextEditingController();
+  String email = Get.arguments;
+  final _controller = Get.find<OtpVerificationController>();
+
+  Future<void> _onPressedNextButton () async {
+    final bool result = await _controller.otpVerificationRequest(email, _pinTEc.text);
+    if(result) {
+      if(mounted) {
+        Get.toNamed('/completeProfileScreen');
+      }
+    } else {
+      Get.snackbar("Something Went Wrong", _controller.errorMessage ?? " " );
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +47,7 @@ class _OtpValidationScreenState extends State<OtpValidationScreen> {
               const SizedBox(height: 20,),
 
               PinCodeTextField(
-                //controller: _pinTEc,
+                controller: _pinTEc,
                 keyboardType: TextInputType.number,
                 length: 6,
                 obscureText: false,
@@ -51,13 +69,15 @@ class _OtpValidationScreenState extends State<OtpValidationScreen> {
               ),
 
               const SizedBox(height: 20,),
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed('/completeProfileScreen');
-                },
-                child: const Text(
-                  "Next",
-                  style: TextStyle(color: Colors.white),
+              Visibility(
+                visible: !_controller.optVerificationInProgress,
+                replacement: const Center(child: CircularProgressIndicator(),),
+                child: ElevatedButton(
+                  onPressed: _onPressedNextButton,
+                  child: const Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

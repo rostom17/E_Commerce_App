@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/email_verification_controller.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/image_paths.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +13,23 @@ class EmailValidationScreen extends StatefulWidget {
 }
 
 class _EmailValidationScreenState extends State<EmailValidationScreen> {
-  final _email = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _email = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _controller = Get.find<EmailVerificationController>();
 
-  Future<void> _onPressedNextButton () async {
-    if(_formKey.currentState!.validate()) {
-      
+  Future<void> _onPressedNextButton() async {
+    if (_formKey.currentState!.validate()) {
+      final bool result = await
+          _controller.emailVerificationRequest(_email.text.trim());
+      if(result) {
+        if(mounted) {
+          Get.toNamed('/otpValidationScreen', arguments: _email.text.trim());
+        }
+      }
+      else {
+        Get.snackbar("Failed", _controller.errorMessage ?? "No Message", );
+      }
     }
-
-
-      //Get.toNamed('/otpValidationScreen');
-
   }
 
   @override
@@ -38,8 +45,8 @@ class _EmailValidationScreenState extends State<EmailValidationScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Center(
           child: Form(
+            key: _formKey,
             child: Column(
-              key: _formKey,
               children: [
                 SizedBox(
                   height: Get.height * .25,
@@ -75,24 +82,31 @@ class _EmailValidationScreenState extends State<EmailValidationScreen> {
                               BorderSide(color: AppColorTheme.appColorTheme)),
                       fillColor: Colors.transparent,
                       filled: true),
-                    validator: (String? value) {
-                      if(value?.trim().isEmpty == true) {
-                        return "Email can't be empty!";
-                      }
-                      else {
-                        return null;
-                      }
-                    },
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty == true) {
+                      return "Email can't be empty!";
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: _onPressedNextButton,
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                GetBuilder<EmailVerificationController>(
+                  builder: (controller) {
+                    return Visibility(
+                      replacement: const Center(child: CircularProgressIndicator()),
+                      visible: !controller.emailVerificationInProgress,
+                      child: ElevatedButton(
+                        onPressed: _onPressedNextButton,
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                  }
                 ),
               ],
             ),

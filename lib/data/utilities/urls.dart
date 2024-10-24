@@ -9,4 +9,7 @@ class Urls {
   static const productListByRemark_Popular_URL = "$_productListByRemark/popular";
   static const productListByRemark_New_URL = "$_productListByRemark/new";
   static const productListByRemark_Regular_URL = "$_productListByRemark/regular";
+
+  static const emailVerificationURL = "$_baseUrl/UserLogin/";
+  static const otpVerificationURL = "$_baseUrl/VerifyLogin/";
 }
