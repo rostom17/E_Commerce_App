@@ -1,0 +1,42 @@
+import 'package:e_commerce_app/presentation/state_holders/controller_bindings.dart';
+import 'package:e_commerce_app/presentation/ui/screens/bottom_nav_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/profile/complete_profile_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/profile/email_validation_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/profile/otp_validation_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/profile/user_profile_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/splash_screen.dart';
+import 'package:e_commerce_app/presentation/ui/theme/light_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class CraftyBay extends StatefulWidget {
+  const CraftyBay({super.key});
+
+  @override
+  State<CraftyBay> createState() => _CraftyBayState();
+}
+
+class _CraftyBayState extends State<CraftyBay> {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Crafty Bay",
+      theme: lightTheme(),
+
+      home: const SplashScreen(),
+      initialRoute: '/',
+
+      initialBinding: ControllerBindings(),
+
+      getPages: [
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/bottomNavScreen', page: ()=> const BottomNavScreen()),
+        GetPage(name: '/userProfile', page: ()=> const UserProfileScreen()),
+        GetPage(name: '/emailValidationScreen', page: () => const EmailValidationScreen()),
+        GetPage(name: '/otpValidationScreen', page: () => const OtpValidationScreen()),
+        GetPage(name: '/completeProfileScreen', page: () => const CompleteProfileScreen()),
+      ],
+    );
+  }
+}
