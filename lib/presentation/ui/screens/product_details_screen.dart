@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/data/models/product_list_data_model.dart';
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
+import 'package:e_commerce_app/presentation/state_holders/create_wishlist_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/product_details_controller.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/bottom_app_bar_widget.dart';
@@ -12,8 +14,21 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final ProductListDataModel product;
 
-  void _onTapReview () {
+  void _onTapReview() {
     Get.toNamed('/reviewScreen', arguments: product.id.toString());
+  }
+
+  Future<void> _onPressedFavouriteButton() async {
+    if(Get.find<AuthenticationController>().isLoggedIn()) {
+      Get.find<CreateWishListController>().toggle();
+      bool result = await Get.find<CreateWishListController>()
+          .createWishListRequest("${product.id}");
+      if (result) {
+        Get.snackbar("Successful", "I have added this item to your Wish List");
+      } else {
+        Get.snackbar("failed", "Try again");
+      }
+    }
   }
 
   @override
@@ -95,7 +110,7 @@ class ProductDetailsScreen extends StatelessWidget {
       bottomNavigationBar:
           GetBuilder<ProductDetailsController>(builder: (controller) {
         return BottomAppBarWidget(
-          color: "Red",
+            color: "Red",
             size: "X",
             productId: product.id ?? 1,
             qty: controller.itemCount,
@@ -154,7 +169,15 @@ class ProductDetailsScreen extends StatelessWidget {
             style: TextStyle(color: AppColorTheme.appColorTheme),
           ),
         ),
-        const Icon(CupertinoIcons.heart),
+        GetBuilder<CreateWishListController>(
+          builder: (controller) {
+            return IconButton(
+                onPressed: _onPressedFavouriteButton,
+                icon: controller.isFav
+                    ? const Icon(CupertinoIcons.heart_fill)
+                    : const Icon(CupertinoIcons.heart));
+          }
+        ),
       ],
     );
   }

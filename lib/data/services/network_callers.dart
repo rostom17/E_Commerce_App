@@ -9,6 +9,7 @@ class NetworkCallers {
 
   static Future<NetworkResponse> getRequest(String url, {String? token}) async {
     try {
+      print(token);
       Response response = await get(
           Uri.parse(
             url,

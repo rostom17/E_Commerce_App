@@ -18,9 +18,11 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    String token =
-        Get.find<AuthenticationController>().accessToken ?? "no token";
-    Get.find<ReadCartListController>().readCartListRequest(token);
+    if(Get.find<AuthenticationController>().isLoggedIn()) {
+      String token =
+          Get.find<AuthenticationController>().accessToken ?? "no token";
+      Get.find<ReadCartListController>().readCartListRequest(token);
+    }
     super.initState();
   }
 

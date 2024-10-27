@@ -22,5 +22,7 @@ class Urls {
 
   static const createCartListURL = "$_baseUrl/CreateCartList";
   static const readCartList = "$_baseUrl/CartList";
+  static const readWishList = "$_baseUrl/ProductWishList";
+  static const createWishList = "$_baseUrl/CreateWishList/";
 
 }

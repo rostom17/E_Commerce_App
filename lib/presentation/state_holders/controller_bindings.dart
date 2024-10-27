@@ -7,10 +7,12 @@ import 'package:e_commerce_app/presentation/state_holders/bottom_nav_controller.
 import 'package:e_commerce_app/presentation/state_holders/brand_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/create_cart_list_controller.dart';
+import 'package:e_commerce_app/presentation/state_holders/create_wishlist_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/product_details_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/product_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/product_review_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/read_cart_list_controller.dart';
+import 'package:e_commerce_app/presentation/state_holders/read_wish_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/slider_controller.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +33,8 @@ class ControllerBindings extends Bindings {
     Get.put(ProductReviewController());
     Get.put(CreateCartListController());
     Get.put(ReadCartListController());
+    Get.put(ReadWishListController());
+    Get.put(CreateWishListController());
 
   }
 }
