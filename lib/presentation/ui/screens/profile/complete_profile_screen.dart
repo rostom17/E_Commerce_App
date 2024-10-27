@@ -56,10 +56,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       bool result = await Get.find<CreateProfileController>()
           .createProfileRequest(_accessToken, _userInputData);
       if(result) {
+        dispose();
         Get.offAllNamed('/bottomNavScreen');
         Get.snackbar("Congrats", "Update Profile Complete\nFind your desired product");
       } else {
-        Get.snackbar("Falied", "Try Again");
+        Get.snackbar("Failed", "Try Again");
       }
     }
   }

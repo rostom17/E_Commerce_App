@@ -16,4 +16,11 @@ class Urls {
 
   static const readProfileURL = "$_baseUrl/ReadProfile";
   static const createProfileURL = "$_baseUrl/CreateProfile";
+
+
+  static const productReview = "$_baseUrl/ListReviewByProduct/";
+
+  static const createCartListURL = "$_baseUrl/CreateCartList";
+  static const readCartList = "$_baseUrl/CartList";
+
 }

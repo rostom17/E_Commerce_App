@@ -4,6 +4,7 @@ import 'package:e_commerce_app/presentation/ui/screens/profile/complete_profile_
 import 'package:e_commerce_app/presentation/ui/screens/profile/email_validation_screen.dart';
 import 'package:e_commerce_app/presentation/ui/screens/profile/otp_validation_screen.dart';
 import 'package:e_commerce_app/presentation/ui/screens/profile/user_profile_screen.dart';
+import 'package:e_commerce_app/presentation/ui/screens/review_screen.dart';
 import 'package:e_commerce_app/presentation/ui/screens/splash_screen.dart';
 import 'package:e_commerce_app/presentation/ui/theme/light_theme.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _CraftyBayState extends State<CraftyBay> {
         GetPage(name: '/emailValidationScreen', page: () => const EmailValidationScreen()),
         GetPage(name: '/otpValidationScreen', page: () => const OtpValidationScreen()),
         GetPage(name: '/completeProfileScreen', page: () => const CompleteProfileScreen()),
+        GetPage(name: '/reviewScreen', page: () => const ReviewScreen()),
       ],
     );
   }

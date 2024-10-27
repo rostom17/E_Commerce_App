@@ -12,6 +12,10 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final ProductListDataModel product;
 
+  void _onTapReview () {
+    Get.toNamed('/reviewScreen', arguments: product.id.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     final _pageViewController = PageController();
@@ -36,25 +40,7 @@ class ProductDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: Get.height * .25,
-              width: double.maxFinite,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  PageView(
-                    controller: _pageViewController,
-                    children:
-                        imageLinks.map((items) => _createPage(items)).toList(),
-                  ),
-                  Positioned(
-                    top: 215,
-                    child: _buildPageIndicator(
-                        _pageViewController, imageLinks.length),
-                  ),
-                ],
-              ),
-            ),
+            productImage(_pageViewController, imageLinks),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -62,81 +48,11 @@ class ProductDetailsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: Get.width * .65,
-                        child: Wrap(
-                          children: [
-                            Text(
-                              product.title!,
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          ],
-                        ),
-                      ),
-                      GetBuilder<ProductDetailsController>(
-                          builder: (controller) {
-                        return SizedBox(
-                          width: Get.width * .30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  controller.decrement();
-                                },
-                                icon: const Icon(
-                                  Icons.remove_circle,
-                                  color: AppColorTheme.appColorTheme,
-                                  size: 30,
-                                ),
-                              ),
-                              Text(
-                                controller.itemCount.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  controller.increment();
-                                },
-                                icon: const Icon(
-                                  Icons.add_circle_rounded,
-                                  color: AppColorTheme.appColorTheme,
-                                  size: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
+                  _productTitileAndQuantityRow(context),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          Text(product.star!.toString()),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Reviews",
-                              style:
-                                  TextStyle(color: AppColorTheme.appColorTheme),
-                            ),
-                          ),
-                          const Icon(CupertinoIcons.heart),
-                        ],
-                      ),
+                      _reviewSection(),
                       const SizedBox(
                         height: 10,
                       ),
@@ -145,19 +61,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Wrap(
-                        spacing: 10,
-                        children: colors
-                            .map(
-                              (item) => InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  backgroundColor: item,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
+                      _colorSelector(colors),
                       const SizedBox(
                         height: 10,
                       ),
@@ -168,20 +72,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Wrap(
-                        spacing: 10,
-                        children: sizes
-                            .map(
-                              (item) => InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.grey.shade400,
-                                  child: Text(item),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
+                      _sizeSelection(sizes),
                       const SizedBox(
                         height: 20,
                       ),
@@ -204,10 +95,144 @@ class ProductDetailsScreen extends StatelessWidget {
       bottomNavigationBar:
           GetBuilder<ProductDetailsController>(builder: (controller) {
         return BottomAppBarWidget(
+          color: "Red",
+            size: "X",
+            productId: product.id ?? 1,
+            qty: controller.itemCount,
             buttonName: "Add to Cart",
             price: "${int.tryParse(product.price!)! * controller.itemCount}  ",
             priceTag: "Price");
       }),
+    );
+  }
+
+  Wrap _sizeSelection(List<String> sizes) {
+    return Wrap(
+      spacing: 10,
+      children: sizes
+          .map(
+            (item) => InkWell(
+              onTap: () {},
+              child: CircleAvatar(
+                backgroundColor: Colors.grey.shade400,
+                child: Text(item),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Wrap _colorSelector(List<Color> colors) {
+    return Wrap(
+      spacing: 10,
+      children: colors
+          .map(
+            (item) => InkWell(
+              onTap: () {},
+              child: CircleAvatar(
+                backgroundColor: item,
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Row _reviewSection() {
+    return Row(
+      children: [
+        const Icon(
+          Icons.star,
+          color: Colors.yellow,
+        ),
+        Text(product.star!.toString()),
+        TextButton(
+          onPressed: _onTapReview,
+          child: const Text(
+            "Reviews",
+            style: TextStyle(color: AppColorTheme.appColorTheme),
+          ),
+        ),
+        const Icon(CupertinoIcons.heart),
+      ],
+    );
+  }
+
+  Row _productTitileAndQuantityRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: Get.width * .65,
+          child: Wrap(
+            children: [
+              Text(
+                product.title!,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ],
+          ),
+        ),
+        GetBuilder<ProductDetailsController>(builder: (controller) {
+          return SizedBox(
+            width: Get.width * .30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    controller.decrement();
+                  },
+                  icon: const Icon(
+                    Icons.remove_circle,
+                    color: AppColorTheme.appColorTheme,
+                    size: 30,
+                  ),
+                ),
+                Text(
+                  controller.itemCount.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {
+                    controller.increment();
+                  },
+                  icon: const Icon(
+                    Icons.add_circle_rounded,
+                    color: AppColorTheme.appColorTheme,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  SizedBox productImage(
+      PageController _pageViewController, List<String> imageLinks) {
+    return SizedBox(
+      height: 240,
+      width: double.maxFinite,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          PageView(
+            controller: _pageViewController,
+            children: imageLinks.map((items) => _createPage(items)).toList(),
+          ),
+          Positioned(
+            top: 215,
+            child: _buildPageIndicator(_pageViewController, imageLinks.length),
+          ),
+        ],
+      ),
     );
   }
 

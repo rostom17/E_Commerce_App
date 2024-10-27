@@ -199,7 +199,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Drawer(
       child: Column(
         children: [
-          const DrawerHeader(child: Icon(Icons.timer_outlined)),
+          InkWell(
+              onTap: (){
+                Get.offAllNamed('/bottomNavScreen');
+              },
+              child: const DrawerHeader(child: Icon(CupertinoIcons.home))),
           ListTile(
             onTap: () {},
             leading: const Icon(Icons.settings),

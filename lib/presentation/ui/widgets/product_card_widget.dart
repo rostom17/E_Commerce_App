@@ -45,7 +45,7 @@ class ProductCardWidget extends StatelessWidget {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(left: 5),
-              child: product.title!.length >= 15 ? Text("${product.title!.substring(0, 15)}...")
+              child: product.title!.length >= 10 ? Text("${product.title!.substring(0, 10)}...")
                   : Text(product.title!),
             ),
             const Spacer(),
