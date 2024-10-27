@@ -28,10 +28,10 @@ class BottomAppBarWidget extends StatelessWidget {
     bool result = Get.find<AuthenticationController>().isLoggedIn();
     if (result) {
       Map<String, dynamic> cartInfo = {
-        "product_id": productId,
+        "product_id": productId.toString(),
         "color": color,
         "size": size,
-        "qty": qty
+        "qty": qty.toString()
       };
 
       String token = Get.find<AuthenticationController>().accessToken!;

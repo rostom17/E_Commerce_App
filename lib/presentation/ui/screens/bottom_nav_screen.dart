@@ -43,6 +43,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     Get.find<CategoryListController>().getCategoryList();
     Get.find<BrandListController>().getBrandListRequest();
     Get.find<ProductListController>().getProductList();
+
     super.initState();
   }
 

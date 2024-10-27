@@ -17,10 +17,12 @@ class CreateCartListController extends GetxController {
     createCartListInProgress = false;
     update();
 
-    if(response.isSuccessful) {
+    if(response.isSuccessful ) {
       isSuccessful = true;
     }
     else{
+      print(response.statusCode.toString());
+      print(response.errorMessage.toString());
       isSuccessful = false;
     }
 

@@ -42,11 +42,11 @@ class NetworkCallers {
             isSuccessful: true,
             responseData: jsonDecode(response.body));
       } else {
+
         return NetworkResponse(
             statusCode: response.statusCode, isSuccessful: false);
       }
     } catch (e) {
-      print(e.toString());
       return NetworkResponse(
           statusCode: -1,
           isSuccessful: false,

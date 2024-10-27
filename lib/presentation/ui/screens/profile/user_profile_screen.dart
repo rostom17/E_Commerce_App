@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/data/models/user_models/user_details_data_model.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
+import 'package:e_commerce_app/presentation/ui/screens/home_screen.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
