@@ -75,6 +75,7 @@ class _CartScreenState extends State<CartScreen> {
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
+                                  Text('qty: ${controller.cartList[index].qty}', style: const TextStyle(color: Colors.red),),
                                   //const Spacer(),
                                   Text(
                                     "\$${controller.cartList[index].price}",
