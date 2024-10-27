@@ -1,5 +1,8 @@
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/create_profile_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/email_verification_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/otp_verification_controller.dart';
+import 'package:e_commerce_app/presentation/state_holders/auth_controller/read_profile_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/bottom_nav_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/brand_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/category_list_controller.dart';
@@ -19,6 +22,9 @@ class ControllerBindings extends Bindings {
     Get.put(ProductDetailsController());
     Get.put(EmailVerificationController());
     Get.put(OtpVerificationController());
+    Get.put(AuthenticationController());
+    Get.put(ReadProfileController());
+    Get.put(CreateProfileController());
 
   }
 }

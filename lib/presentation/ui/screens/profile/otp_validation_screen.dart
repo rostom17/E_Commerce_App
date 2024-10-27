@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/otp_verification_controller.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/image_paths.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,9 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpValidationScreen extends StatefulWidget {
-  const OtpValidationScreen({super.key,});
+  const OtpValidationScreen({
+    super.key,
+  });
 
   @override
   State<OtpValidationScreen> createState() => _OtpValidationScreenState();
@@ -19,33 +19,52 @@ class _OtpValidationScreenState extends State<OtpValidationScreen> {
   String email = Get.arguments;
   final _controller = Get.find<OtpVerificationController>();
 
-  Future<void> _onPressedNextButton () async {
-    final bool result = await _controller.otpVerificationRequest(email, _pinTEc.text);
-    if(result) {
-      if(mounted) {
-        Get.toNamed('/completeProfileScreen');
+  Future<void> _onPressedNextButton() async {
+    final int result =
+        await _controller.otpVerificationRequest(email, _pinTEc.text);
+    if (result == 0) {
+      if (mounted) {
+        Get.snackbar("Something Went Wrong", _controller.errorMessage ?? " ");
       }
+    } else if (result == 1) {
+      Get.toNamed('/completeProfileScreen', arguments: _controller.accessToken);
+      Get.snackbar("One More Step", "Complete Your Profile");
     } else {
-      Get.snackbar("Something Went Wrong", _controller.errorMessage ?? " " );
+      Get.offAllNamed('/bottomNavScreen');
+      Get.snackbar("Welcome Back", "Find Your Desired Item");
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding:  const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: Get.height*.25,),
-              SvgPicture.asset(ImagePaths.logoImage, height: 100,),
-              const SizedBox(height: 20,),
-              Text("Enter OTP Code", style: Theme.of(context).textTheme.headlineSmall,),
-              const SizedBox(height: 20,),
-              Text("A 6 Digit Code has been Sent to Your Email",style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 20,),
-
+              SizedBox(
+                height: Get.height * .25,
+              ),
+              SvgPicture.asset(
+                ImagePaths.logoImage,
+                height: 100,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Enter OTP Code",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text("A 6 Digit Code has been Sent to Your Email",
+                  style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(
+                height: 20,
+              ),
               PinCodeTextField(
                 controller: _pinTEc,
                 keyboardType: TextInputType.number,
@@ -67,21 +86,28 @@ class _OtpValidationScreenState extends State<OtpValidationScreen> {
                 enableActiveFill: true,
                 appContext: context,
               ),
-
-              const SizedBox(height: 20,),
-              Visibility(
-                visible: !_controller.optVerificationInProgress,
-                replacement: const Center(child: CircularProgressIndicator(),),
-                child: ElevatedButton(
-                  onPressed: _onPressedNextButton,
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+              const SizedBox(
+                height: 20,
+              ),
+              GetBuilder<OtpVerificationController>(
+                builder: (controller) {
+                  return Visibility(
+                    visible: !controller.optVerificationInProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _onPressedNextButton,
+                      child: const Text(
+                        "Next",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                }
               ),
             ],
-          )
+          ),
         ),
       ),
     );

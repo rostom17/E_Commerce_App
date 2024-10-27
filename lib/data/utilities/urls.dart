@@ -12,4 +12,8 @@ class Urls {
 
   static const emailVerificationURL = "$_baseUrl/UserLogin/";
   static const otpVerificationURL = "$_baseUrl/VerifyLogin/";
+  static const logoutURL = "$_baseUrl/logout/";
+
+  static const readProfileURL = "$_baseUrl/ReadProfile";
+  static const createProfileURL = "$_baseUrl/CreateProfile";
 }
