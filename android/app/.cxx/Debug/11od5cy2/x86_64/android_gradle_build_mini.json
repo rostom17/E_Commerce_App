@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/rostomali/development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/rostomali/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/rostomali/Projects/Flutter_App/E_Commerce_App/android/app/.cxx/Debug/11od5cy2/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/rostomali/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/rostomali/Projects/Flutter_App/E_Commerce_App/android/app/.cxx/Debug/11od5cy2/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -1,0 +1,2 @@
+/Users/rostomali/Projects/Flutter_App/E_Commerce_App/android/app/.cxx/Debug/4o5n2d81/x86/CMakeFiles/edit_cache.dir
+/Users/rostomali/Projects/Flutter_App/E_Commerce_App/android/app/.cxx/Debug/4o5n2d81/x86/CMakeFiles/rebuild_cache.dir
