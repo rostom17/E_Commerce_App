@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/data/models/network_response.dart';
+import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/models/slider_data_model.dart';
 import 'package:e_commerce_app/data/models/slider_model.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';
@@ -11,20 +11,21 @@ class SliderController extends GetxController {
   String? _errorMessage;
   List<SliderDataModel> _sliderList = [];
 
-  Future<bool> getSliderData () async {
+  Future<bool> getSliderData() async {
     sliderListRequestInProgress = true;
     update();
 
-    NetworkResponse networkResponse = await NetworkCallers.getRequest(Urls.sliderProductListURL);
+    NetworkResponse networkResponse =
+        await NetworkCallers.getRequest(Urls.sliderProductListURL);
 
-    if(networkResponse.isSuccessful) {
-      SliderModel sliderModel = SliderModel.fromJson(networkResponse.responseData);
+    if (networkResponse.isSuccessful) {
+      SliderModel sliderModel =
+          SliderModel.fromJson(networkResponse.responseData);
       List<SliderDataModel> sliderList = sliderModel.sliderList ?? [];
       _errorMessage = null;
       dataFetchIsSuccessful = true;
       _sliderList = sliderList;
-    }
-    else {
+    } else {
       dataFetchIsSuccessful = false;
       _errorMessage = networkResponse.errorMessage;
     }
@@ -40,5 +41,4 @@ class SliderController extends GetxController {
   List<SliderDataModel> get sliderList => _sliderList;
 
   int get sliderListLength => sliderList.length;
-
 }

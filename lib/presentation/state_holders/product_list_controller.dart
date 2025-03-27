@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/data/models/network_response.dart';
+import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/models/product_list_data_model.dart';
 import 'package:e_commerce_app/data/models/product_list_model.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';
@@ -18,28 +18,39 @@ class ProductListController extends GetxController {
     update();
 
     NetworkResponse networkResponsePopular =
-        await NetworkCallers.getRequest(Urls.productListByRemark_Popular_URL);
+        await NetworkCallers.getRequest(Urls.productListByRemarkPopularURL);
     NetworkResponse networkResponseNew =
-        await NetworkCallers.getRequest(Urls.productListByRemark_New_URL);
+        await NetworkCallers.getRequest(Urls.productListByRemarkNewURL);
     NetworkResponse networkResponseRegular =
-        await NetworkCallers.getRequest(Urls.productListByRemark_Regular_URL);
+        await NetworkCallers.getRequest(Urls.productListByRemarkRegularURL);
 
-    if(networkResponsePopular.isSuccessful) {
+    if (networkResponsePopular.isSuccessful) {
       isFetchDataSuccessful = true;
-      ProductListModel productListModel = ProductListModel.fromJson(networkResponsePopular.responseData);
+      ProductListModel productListModel =
+          ProductListModel.fromJson(networkResponsePopular.responseData);
       _productListPopular = productListModel.productList ?? [];
+    } else {
+      _errorMessage = networkResponsePopular.errorMessage;
     }
 
-    if(networkResponseNew.isSuccessful) {
+    if (networkResponseNew.isSuccessful) {
       isFetchDataSuccessful = true;
-      ProductListModel productListModel = ProductListModel.fromJson(networkResponsePopular.responseData);
+      ProductListModel productListModel =
+          ProductListModel.fromJson(networkResponseNew.responseData);
       _productListNew = productListModel.productList ?? [];
+    } else {
+      _errorMessage =
+          "$_errorMessage.\nNew: ${networkResponseNew.errorMessage}";
     }
 
-    if(networkResponseRegular.isSuccessful) {
+    if (networkResponseRegular.isSuccessful) {
       isFetchDataSuccessful = true;
-      ProductListModel productListModel = ProductListModel.fromJson(networkResponsePopular.responseData);
+      ProductListModel productListModel =
+          ProductListModel.fromJson(networkResponseRegular.responseData);
       _productListRegular = productListModel.productList ?? [];
+    } else {
+      _errorMessage =
+          "$_errorMessage. \n Regular: ${networkResponseRegular.errorMessage}";
     }
 
     getProductListRequestInProgress = false;
@@ -51,4 +62,6 @@ class ProductListController extends GetxController {
   List<ProductListDataModel> get productListPopular => _productListPopular;
   List<ProductListDataModel> get productListNew => _productListNew;
   List<ProductListDataModel> get productListRegular => _productListRegular;
+
+  String? get errorMessage => _errorMessage;
 }

@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
-import 'package:e_commerce_app/presentation/ui/screens/bottom_nav_screen.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Future<void> _moveToNextScreen () async {
+  Future<void> _moveToNextScreen() async {
     await Get.find<AuthenticationController>().getAccessToken();
     await Future.delayed(const Duration(seconds: 2));
     Get.offAllNamed('/bottomNavScreen');
@@ -37,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Spacer(),
               SvgPicture.asset(ImagePaths.logoImage),
               const Spacer(),
-              const LinearProgressIndicator(),
+              const CircularProgressIndicator(),
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/presentation/state_holders/controller_bindings.dart';
+import 'package:e_commerce_app/controller_bindings.dart';
 import 'package:e_commerce_app/presentation/ui/screens/bottom_nav_screen.dart';
 import 'package:e_commerce_app/presentation/ui/screens/profile/complete_profile_screen.dart';
 import 'package:e_commerce_app/presentation/ui/screens/profile/email_validation_screen.dart';

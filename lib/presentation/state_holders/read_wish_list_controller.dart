@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/data/models/network_response.dart';
+import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/models/wish_list_data_model.dart';
 import 'package:e_commerce_app/data/models/wish_list_model.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';

@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/data/models/cart_product_data_model.dart';
 
 class WishListDataModel {

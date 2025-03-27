@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/data/models/category_list_data_model.dart';
 import 'package:e_commerce_app/data/models/category_list_model.dart';
-import 'package:e_commerce_app/data/models/network_response.dart';
+import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';
 import 'package:e_commerce_app/data/utilities/urls.dart';
 import 'package:get/get.dart';

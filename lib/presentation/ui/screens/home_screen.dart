@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:e_commerce_app/data/models/product_list_data_model.dart';
 import 'package:e_commerce_app/data/models/slider_data_model.dart';
 import 'package:e_commerce_app/presentation/state_holders/bottom_nav_controller.dart';
@@ -23,7 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _pageViewController = PageController();
+  final PageController _pageViewController = PageController();
+  final _sliderController = Get.find<SliderController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            GetBuilder<SliderController>(builder: (controller) {
-              return Visibility(
-                replacement: _buildSliderPageWithoutImage(),
-                visible: controller.sliderListRequestInProgress == false,
-                child: _buildSliderPage(controller.sliderList),
-              );
-            }),
+            GetBuilder<SliderController>(
+              builder: (_) {
+                return Visibility(
+                  replacement: _buildSliderPageWithoutImage(),
+                  visible:
+                      _sliderController.sliderListRequestInProgress == false,
+                  child: _buildSliderPage(_sliderController.sliderList),
+                );
+              },
+            ),
             const SizedBox(
               height: 12,
             ),
@@ -82,9 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 16,
             ),
-            GetBuilder<ProductListController>(builder: (controller) {
-              return _productBuilder(controller.productListRegular);
-            }),
+            GetBuilder<ProductListController>(
+              builder: (controller) {
+                return _productBuilder(controller.productListRegular);
+              },
+            ),
             const SizedBox(
               height: 16,
             ),
@@ -116,29 +122,27 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox _buildSliderPageWithoutImage() {
     return SizedBox(
       height: Get.height * .175,
-      child: PageView(
-        controller: _pageViewController,
-        children: [
-          _createPageWithoutImage(AppColorTheme.appColorTheme),
-          _createPageWithoutImage(Colors.pinkAccent),
-          _createPageWithoutImage(Colors.orange),
-          _createPageWithoutImage(Colors.yellow),
-        ],
+      child: const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
 
   Widget _buildPageIndicator() {
-    return GetBuilder<SliderController>(builder: (controller) {
-      if (!controller.sliderListRequestInProgress) {
-        return SmoothPageIndicator(
-          controller: _pageViewController,
-          count: controller.sliderListLength,
-          effect: const WormEffect(),
-        );
-      } else
-        return SizedBox();
-    });
+    return GetBuilder<SliderController>(
+      builder: (_) {
+        if (!_sliderController.sliderListRequestInProgress &&
+            _sliderController.sliderListLength > 0) {
+          return SmoothPageIndicator(
+            controller: _pageViewController,
+            count: _sliderController.sliderListLength,
+            effect: const WormEffect(),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
   }
 
   Row _buildSection(BuildContext context, String name) {
@@ -240,6 +244,10 @@ ClipRRect _createPage(String imageLink) {
       child: Image.network(
         imageLink,
         fit: BoxFit.cover,
+        errorBuilder: (context, error, starckTrace) => Container(
+          color: Colors.red,
+          child: const Icon(Icons.broken_image),
+        ),
       ),
     ),
   );
