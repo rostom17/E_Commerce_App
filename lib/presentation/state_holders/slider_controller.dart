@@ -21,10 +21,13 @@ class SliderController extends GetxController {
     if (networkResponse.isSuccessful) {
       SliderModel sliderModel =
           SliderModel.fromJson(networkResponse.responseData);
-      List<SliderDataModel> sliderList = sliderModel.sliderList ?? [];
+
+      if (sliderModel.data != null && sliderModel.data!.results != null) {
+        _sliderList = sliderModel.data!.results!;
+      }
       _errorMessage = null;
       dataFetchIsSuccessful = true;
-      _sliderList = sliderList;
+      //_sliderList = sliderList;
     } else {
       dataFetchIsSuccessful = false;
       _errorMessage = networkResponse.errorMessage;

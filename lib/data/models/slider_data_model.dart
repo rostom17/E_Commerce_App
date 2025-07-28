@@ -1,44 +1,48 @@
 class SliderDataModel {
-  int? id;
-  String? title;
-  String? shortDes;
-  String? price;
-  String? image;
-  int? productId;
+  String? sId;
+  String? photoUrl;
+  String? description;
+  dynamic product;
+  String? brand;
+  dynamic category;
   String? createdAt;
   String? updatedAt;
+  int? iV;
 
   SliderDataModel(
-      {this.id,
-      this.title,
-      this.shortDes,
-      this.price,
-      this.image,
-      this.productId,
+      {this.sId,
+      this.photoUrl,
+      this.description,
+      this.product,
+      this.brand,
+      this.category,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.iV});
 
   SliderDataModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    shortDes = json['short_des'];
-    price = json['price'];
-    image = json['image'];
-    productId = json['product_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    sId = json['_id'];
+    photoUrl = json['photo_url'];
+    description = json['description'];
+    product = json['product'];
+    brand = json['brand'];
+    category = json['category'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['short_des'] = this.shortDes;
-    data['price'] = this.price;
-    data['image'] = this.image;
-    data['product_id'] = this.productId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = {};
+    data['_id'] = sId;
+    data['photo_url'] = photoUrl;
+    data['description'] = description;
+    data['product'] = product;
+    data['brand'] = brand;
+    data['category'] = category;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }

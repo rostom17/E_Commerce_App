@@ -10,7 +10,6 @@ import 'package:e_commerce_app/presentation/state_holders/category_list_controll
 import 'package:e_commerce_app/presentation/state_holders/product_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/slider_controller.dart';
 import 'package:e_commerce_app/presentation/ui/screens/product_list_screen.dart';
-import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/category_card_widget.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/product_card_widget.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/search_bar_widget.dart';
@@ -112,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageViewController,
         children: sliderList
             .map(
-              (items) => _createPage(items.image!),
+              (items) => _createPage(items.photoUrl!),
             )
             .toList(),
       ),
