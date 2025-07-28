@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/data/models/user_models/login_model.dart';
 import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';
+import 'package:e_commerce_app/data/services/secure_storage_service.dart';
 import 'package:e_commerce_app/data/utilities/urls.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -31,20 +32,23 @@ class LoginController extends GetxController {
 
       LoginModel loginModel = LoginModel.fromJson(response.responseData);
 
-      final token = loginModel.data!.token;
-      final user = loginModel.data!.user;
+      if (loginModel.data != null) {
+        final token = loginModel.data!.token;
+        final user = loginModel.data!.user;
 
-      if (token != null) {
-        debugPrint("Token : $token");
-      }
-      if (user != null) {
-        debugPrint("user: $user");
+        if (token != null && user != null) {
+          SecureStorageService.storeAuthCredentials(
+            token: token,
+          );
+          SecureStorageService.saveUserData(user);
+          print(token);
+        }
       }
     } else {
       isSuccessful = false;
       statusCode = response.statusCode;
       _errorMessage = response.errorMessage;
-      debugPrint("$statusCode");
+      print("$statusCode");
     }
 
     emailVerificationInProgress = false;

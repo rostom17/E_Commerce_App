@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageViewController = PageController();
-  //final _sliderController = Get.find<SliderController>();
 
   @override
   Widget build(BuildContext context) {

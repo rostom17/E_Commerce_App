@@ -1,6 +1,6 @@
-import 'package:e_commerce_app/data/models/user_models/user_details_data_model.dart';
+import 'package:e_commerce_app/data/models/user_models/user_data.dart';
+import 'package:e_commerce_app/data/services/secure_storage_service.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
-import 'package:e_commerce_app/presentation/ui/screens/home_screen.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,16 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final _controller = Get.find<AuthenticationController>();
-  UserDetailsDataModel? userData;
+  UserData? userData;
 
   Future<void> _retriveUserData() async {
-    userData = await _controller.getUserData();
+    userData = await SecureStorageService.getUserData();
     if (userData != null) {
-      setState(() {});
+      print(userData!.firstName ?? "no name");
+    } else {
+      print("got null data");
     }
+    setState(() {});
   }
 
   @override
@@ -33,12 +35,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: _buildDrawer(),
+      //drawer: _buildDrawer(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
             _buildTopGradiantDesign(),
-            _buildAppDrawerFuntionality(),
+            //_buildAppDrawerFuntionality(),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,44 +55,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   _buildRow(
                       context,
                       userData != null
-                          ? userData!.cusName ?? " "
+                          ? userData!.firstName ?? " "
                           : "login required",
                       CupertinoIcons.person),
                   _buildDivider(),
                   _buildRow(
                       context,
                       userData != null
-                          ? userData!.cusPhone ?? " "
+                          ? userData!.phone ?? " "
                           : "login required",
                       Icons.phone_android_sharp),
                   _buildDivider(),
                   _buildRow(
                       context,
                       userData != null
-                          ? userData!.cusAdd ?? " "
+                          ? userData!.email ?? " "
                           : "login required",
                       Icons.apartment),
                   _buildDivider(),
                   _buildRow(
                       context,
                       userData != null
-                          ? userData!.user!.email ?? " "
+                          ? userData!.email ?? " "
                           : "login required",
                       CupertinoIcons.mail),
-                  _buildDivider(),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.shipState ?? " "
-                          : "login required",
-                      CupertinoIcons.eye),
-                  _buildDivider(),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.user!.id.toString() ?? " "
-                          : "login required",
-                      CupertinoIcons.eye),
                   _buildDivider(),
                   const SizedBox(
                     height: 40,
@@ -144,7 +132,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   TextButton _loginButton() {
     return TextButton(
       onPressed: () {
-        Get.toNamed('/emailValidationScreen');
+        Get.toNamed('/loginScreen')!.then((val) {
+          _retriveUserData();
+        });
       },
       child: const Text(
         "Login Account?",
@@ -157,7 +147,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return ElevatedButton(
       onPressed: () {
         Get.toNamed('/completeProfileScreen',
-            arguments: _controller.accessToken);
+            arguments: SecureStorageService.getAccessToken());
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: AppColorTheme.appColorTheme,
@@ -201,7 +191,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       child: Column(
         children: [
           InkWell(
-              onTap: (){
+              onTap: () {
                 Get.offAllNamed('/bottomNavScreen');
               },
               child: const DrawerHeader(child: Icon(CupertinoIcons.home))),

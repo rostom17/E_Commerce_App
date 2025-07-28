@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text);
       if (result) {
         if (mounted) {
-          Get.back();
+          Get.back(result: true);
         }
       } else {
         Get.snackbar(
@@ -47,6 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Center(
@@ -55,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: Get.height * .25,
+                  height: Get.height * .15,
                 ),
                 SvgPicture.asset(
                   ImagePaths.logoImage,

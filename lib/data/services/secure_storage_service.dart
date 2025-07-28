@@ -2,21 +2,19 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/data/models/user_models/user_data.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
-class SecureStorageService {
+class SecureStorageService  {
   static const _storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
       iOptions: IOSOptions(
           accessibility: KeychainAccessibility.first_unlock_this_device));
 
   static const String _accessTokenKey = "access_token";
-  static const String _userIdKey = "_id";
   static const String _userDataKey = "current_user";
 
-  static Future<void> storeAuthCredentials(
-      {required String token, required String userId}) async {
+  static Future<void> storeAuthCredentials({required String token}) async {
     await _storage.write(key: _accessTokenKey, value: token);
-    await _storage.write(key: _userIdKey, value: userId);
   }
 
   static Future<String?> getAccessToken() async {
@@ -26,10 +24,6 @@ class SecureStorageService {
   static Future<bool> isLoggedIn() async {
     final token = await getAccessToken();
     return token == null ? false : true;
-  }
-
-  static Future<String?> getUserId() async {
-    return await _storage.read(key: _userIdKey);
   }
 
   static Future<void> saveUserData(UserData userData) async {
@@ -47,7 +41,7 @@ class SecureStorageService {
 
   Future<void> deleteUserData() async {
     await _storage.delete(key: _accessTokenKey);
-    await _storage.delete(key: _userIdKey);
+
     await _storage.delete(key: _userDataKey);
   }
 }

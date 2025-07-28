@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/data/services/secure_storage_service.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/create_profile_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/auth_controller/login_controller.dart';
@@ -35,5 +36,6 @@ class ControllerBindings extends Bindings {
     Get.put(ReadCartListController());
     Get.put(ReadWishListController());
     Get.put(CreateWishListController());
+    
   }
 }

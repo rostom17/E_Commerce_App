@@ -32,7 +32,7 @@ class _CraftyBayState extends State<CraftyBay> {
         GetPage(name: '/bottomNavScreen', page: () => const BottomNavScreen()),
         GetPage(name: '/userProfile', page: () => const UserProfileScreen()),
         GetPage(
-            name: '/emailValidationScreen', page: () => const LoginScreen()),
+            name: '/loginScreen', page: () => const LoginScreen()),
         GetPage(
             name: '/otpValidationScreen',
             page: () => const OtpValidationScreen()),
