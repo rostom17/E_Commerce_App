@@ -3,7 +3,7 @@ class Urls {
 
   static const sliderProductListURL = "$_baseUrl/slides";
   static const categoryListURL = "$_baseUrl/categories";
-  static const brandListURL = "$_baseUrl/BrandList";
+  static const brandListURL = "$_baseUrl/brands";
 
   static const _productListByRemark = "$_baseUrl/ListProductByRemark";
   static const productListByRemarkPopularURL = "$_productListByRemark/popular";

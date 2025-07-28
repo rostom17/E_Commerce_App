@@ -1,29 +1,44 @@
-
 class BrandListDataModel {
-  int? id;
-  String? brandName;
-  String? brandImg;
+  String? sId;
+  String? title;
+  String? slug;
+  String? description;
+  String? icon;
   String? createdAt;
   String? updatedAt;
+  int? iV;
 
   BrandListDataModel(
-      {this.id, this.brandName, this.brandImg, this.createdAt, this.updatedAt});
+      {this.sId,
+      this.title,
+      this.slug,
+      this.description,
+      this.icon,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
   BrandListDataModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    brandName = json['brandName'];
-    brandImg = json['brandImg'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    sId = json['_id'];
+    title = json['title'];
+    slug = json['slug'];
+    description = json['description'];
+    icon = json['icon'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
-    data['brandName'] = brandName;
-    data['brandImg'] = brandImg;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    data['_id'] = sId;
+    data['title'] = title;
+    data['slug'] = slug;
+    data['description'] = description;
+    data['icon'] = icon;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }

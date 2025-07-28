@@ -11,19 +11,24 @@ class BrandListController extends GetxController {
   bool getBrandListInProgress = false;
   bool dataFetchIsSuccessful = false;
 
-  Future<bool> getBrandListRequest () async {
+  Future<bool> getBrandListRequest() async {
     getBrandListInProgress = true;
     update();
 
-    NetworkResponse networkResponse = await NetworkCallers.getRequest(Urls.brandListURL);
+    NetworkResponse networkResponse =
+        await NetworkCallers.getRequest(Urls.brandListURL);
 
-    if(networkResponse.isSuccessful) {
+    if (networkResponse.isSuccessful) {
+      BrandListModel brandListModel =
+          BrandListModel.fromJson(networkResponse.responseData);
+
+      if (brandListModel.data != null && brandListModel.data!.results != null) {
+        _brandList = brandListModel.data!.results!;
+      }
+
       dataFetchIsSuccessful = true;
       _errorMessage = null;
-      BrandListModel brandListModel = BrandListModel.fromJson(networkResponse.responseData);
-      _brandList = brandListModel.brandList ?? [];
-    }
-    else {
+    } else {
       _errorMessage = networkResponse.errorMessage;
       dataFetchIsSuccessful = false;
     }
