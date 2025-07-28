@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/data/models/user_models/user_data.dart';
 import 'package:e_commerce_app/data/services/secure_storage_service.dart';
-import 'package:e_commerce_app/presentation/state_holders/auth_controller/authentication_controller.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +17,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> _retriveUserData() async {
     userData = await SecureStorageService.getUserData();
-    if (userData != null) {
-      print(userData!.firstName ?? "no name");
-    } else {
-      print("got null data");
-    }
     setState(() {});
   }
 
@@ -52,42 +46,73 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.firstName ?? " "
-                          : "login required",
-                      CupertinoIcons.person),
-                  _buildDivider(),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.phone ?? " "
-                          : "login required",
-                      Icons.phone_android_sharp),
-                  _buildDivider(),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.email ?? " "
-                          : "login required",
-                      Icons.apartment),
-                  _buildDivider(),
-                  _buildRow(
-                      context,
-                      userData != null
-                          ? userData!.email ?? " "
-                          : "login required",
-                      CupertinoIcons.mail),
-                  _buildDivider(),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  _buildEditProfileButton(),
+                  userData != null
+                      ? Column(
+                          children: [
+                            _buildRow(
+                                context,
+                                "${userData!.firstName} ${userData!.lastName}",
+                                CupertinoIcons.person),
+                            _buildDivider(),
+                            _buildRow(context, userData!.phone ?? " ",
+                                Icons.phone_android_sharp),
+                            _buildDivider(),
+                            _buildRow(context, userData!.city ?? " ",
+                                Icons.apartment),
+                            _buildDivider(),
+                            _buildRow(context, userData!.email ?? " ",
+                                CupertinoIcons.mail),
+                            _buildDivider(),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            _buildEditProfileButton(),
+                          ],
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Welcome to Crafty Bay.!",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          )),
                   const SizedBox(
                     height: 0,
                   ),
-                  _loginButton(),
+                  userData != null
+                      ? _buildLogoutButton()
+                      : Column(
+                          children: [
+                            _loginButton(),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Do not have account?",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                        color: AppColorTheme.appColorTheme),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                   const SizedBox(
                     height: 10,
                   )
@@ -129,16 +154,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  TextButton _loginButton() {
-    return TextButton(
+  ElevatedButton _loginButton() {
+    return ElevatedButton(
       onPressed: () {
         Get.toNamed('/loginScreen')!.then((val) {
           _retriveUserData();
         });
       },
+      style: elevatedButtonStyle,
       child: const Text(
-        "Login Account?",
-        style: TextStyle(decoration: TextDecoration.underline),
+        "Login",
       ),
     );
   }
@@ -149,67 +174,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Get.toNamed('/completeProfileScreen',
             arguments: SecureStorageService.getAccessToken());
       },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: AppColorTheme.appColorTheme,
-          fixedSize: Size.fromWidth(Get.width * .9),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+      style: elevatedButtonStyle,
       child: const Text(
         "Edit Profile",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-  Builder _buildAppDrawerFuntionality() {
-    return Builder(builder: (context) {
-      return Align(
-        alignment: Alignment.topLeft,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                size: 30,
-                color: Colors.indigo,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  Drawer _buildDrawer() {
-    return Drawer(
-      child: Column(
-        children: [
-          InkWell(
-              onTap: () {
-                Get.offAllNamed('/bottomNavScreen');
-              },
-              child: const DrawerHeader(child: Icon(CupertinoIcons.home))),
-          ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.settings),
-            title: const Text("Settings"),
-          ),
-          ListTile(
-            onTap: () {
-              Get.find<AuthenticationController>().logout();
-              Get.snackbar("Successful", "Logout Successful");
-              Get.offAllNamed('/bottomNavScreen');
-            },
-            leading: const Icon(Icons.logout),
-            title: const Text("Logout"),
-          ),
-        ],
       ),
     );
   }
@@ -242,4 +209,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ],
     );
   }
+
+  Widget _buildLogoutButton() {
+    return TextButton(
+      onPressed: () async {
+        await SecureStorageService.deleteUserData();
+        _retriveUserData();
+      },
+      child: const Text(
+        "Logout.!",
+        style: TextStyle(decoration: TextDecoration.underline),
+      ),
+    );
+  }
+
+  final elevatedButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: AppColorTheme.appColorTheme,
+      foregroundColor: Colors.white,
+      fixedSize: Size.fromWidth(Get.width * .9),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)));
 }

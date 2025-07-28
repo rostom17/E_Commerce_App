@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: Get.height * .15,
+                  height: Get.height * .1,
                 ),
                 SvgPicture.asset(
                   ImagePaths.logoImage,

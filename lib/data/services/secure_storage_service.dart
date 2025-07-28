@@ -39,7 +39,7 @@ class SecureStorageService  {
     return UserData.fromJson(jsonDecode(userJson));
   }
 
-  Future<void> deleteUserData() async {
+  static Future<void> deleteUserData() async {
     await _storage.delete(key: _accessTokenKey);
 
     await _storage.delete(key: _userDataKey);
