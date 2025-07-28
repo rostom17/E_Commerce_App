@@ -2,7 +2,7 @@ class Urls {
   static const _baseUrl = "https://ecom-rs8e.onrender.com/api";
 
   static const sliderProductListURL = "$_baseUrl/slides";
-  static const categoryListURL = "$_baseUrl/CategoryList";
+  static const categoryListURL = "$_baseUrl/categories";
   static const brandListURL = "$_baseUrl/BrandList";
 
   static const _productListByRemark = "$_baseUrl/ListProductByRemark";

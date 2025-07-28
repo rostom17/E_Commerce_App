@@ -187,8 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, idx) => CategoryCardWidget(
-            name: controller.categoryList[idx].categoryName ?? "No Name",
-            imageLink: controller.categoryList[idx].categoryImg ?? "No Image",
+            name: controller.categoryList[idx].title ?? "No Name",
+            imageLink: controller.categoryList[idx].icon ?? "No Image",
           ),
           separatorBuilder: (_, __) => const SizedBox(
             width: 10,

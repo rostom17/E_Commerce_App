@@ -7,25 +7,32 @@ import 'package:get/get.dart';
 
 class CategoryListController extends GetxController {
   bool getCategoryListInProgress = false;
-  String? _errorMessage ;
+  String? _errorMessage;
   bool dataFetchIsSuccessful = false;
 
   List<CategoryListDataModel> _categoryList = [];
 
-  Future<bool> getCategoryList () async {
+  Future<bool> getCategoryList() async {
     getCategoryListInProgress = true;
     update();
 
-    NetworkResponse networkResponse = await NetworkCallers.getRequest(Urls.categoryListURL);
+    NetworkResponse networkResponse =
+        await NetworkCallers.getRequest(Urls.categoryListURL);
 
-    if(networkResponse.isSuccessful) {
-      CategoryListModel categoryListModel = CategoryListModel.fromJson(networkResponse.responseData);
-      _categoryList =categoryListModel.categoryList ?? [];
+    if (networkResponse.isSuccessful) {
+      CategoryListModel categoryListModel =
+          CategoryListModel.fromJson(networkResponse.responseData);
+
+      if (categoryListModel.data != null &&
+          categoryListModel.data!.results != null) {
+        _categoryList = categoryListModel.data!.results!;
+      }
+
       dataFetchIsSuccessful = true;
-    }
-    else {
+      _errorMessage = null;
+    } else {
+      dataFetchIsSuccessful = false;
       _errorMessage = networkResponse.errorMessage;
-
     }
 
     getCategoryListInProgress = false;
@@ -37,5 +44,4 @@ class CategoryListController extends GetxController {
   String? get errorMessage => _errorMessage;
 
   List<CategoryListDataModel> get categoryList => _categoryList;
-
 }

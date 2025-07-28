@@ -16,8 +16,8 @@ class CategoryScreen extends StatelessWidget {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, childAspectRatio: .75),
           itemBuilder: (context, index) => CategoryCardWidget(
-            name: controller.categoryList[index].categoryName ?? "No Name",
-            imageLink: controller.categoryList[index].categoryImg ?? "Image",
+            name: controller.categoryList[index].title ?? "No Name",
+            imageLink: controller.categoryList[index].icon ?? "Image",
           ),
         );
       }),

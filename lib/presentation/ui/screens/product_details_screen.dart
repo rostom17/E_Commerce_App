@@ -47,7 +47,7 @@ class ProductDetailsScreen extends StatelessWidget {
     List<String> imageLinks = [
       product.image!,
       product.brand!.brandImg!,
-      product.category!.categoryImg!
+      product.category!.icon!
     ];
 
     return Scaffold(
