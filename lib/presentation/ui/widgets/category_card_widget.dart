@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
