@@ -34,10 +34,15 @@ class NetworkCallers {
   }
 
   static Future<NetworkResponse> postRequest(
-      String url, String token, Map<String, dynamic> body) async {
+      String url, String? token, Map<String, dynamic> body) async {
     try {
-      Response response =
-          await post(Uri.parse(url), headers: {'token': token}, body: body);
+      Response response = await post(Uri.parse(url),
+          headers: {
+            'token': token ?? "",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: jsonEncode(body));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return NetworkResponse(
             statusCode: response.statusCode,
@@ -45,7 +50,10 @@ class NetworkCallers {
             responseData: jsonDecode(response.body));
       } else {
         return NetworkResponse(
-            statusCode: response.statusCode, isSuccessful: false);
+            statusCode: response.statusCode,
+            isSuccessful: false,
+            errorMessage:
+                "Something went wrong.! Status Code: ${response.statusCode}");
       }
     } catch (e) {
       return NetworkResponse(

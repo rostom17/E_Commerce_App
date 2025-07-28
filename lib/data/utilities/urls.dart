@@ -10,7 +10,7 @@ class Urls {
   static const productListByRemarkNewURL = "$_productListByRemark/new";
   static const productListByRemarkRegularURL = "$_productListByRemark/regular";
 
-  static const emailVerificationURL = "$_baseUrl/UserLogin/";
+  static const loginURL = "$_baseUrl/auth/login";
   static const otpVerificationURL = "$_baseUrl/VerifyLogin/";
   static const logoutURL = "$_baseUrl/logout/";
 
@@ -23,4 +23,7 @@ class Urls {
   static const readCartList = "$_baseUrl/CartList";
   static const readWishList = "$_baseUrl/ProductWishList";
   static const createWishList = "$_baseUrl/CreateWishList/";
+
+  static RegExp emailChecker = RegExp(
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 }

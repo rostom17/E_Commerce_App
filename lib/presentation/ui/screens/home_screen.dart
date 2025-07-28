@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageViewController = PageController();
-  final _sliderController = Get.find<SliderController>();
+  //final _sliderController = Get.find<SliderController>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             GetBuilder<SliderController>(
-              builder: (_) {
+              builder: (sliderController) {
                 return Visibility(
                   replacement: _buildSliderPageWithoutImage(),
                   visible:
-                      _sliderController.sliderListRequestInProgress == false,
-                  child: _buildSliderPage(_sliderController.sliderList),
+                      sliderController.sliderListRequestInProgress == false,
+                  child: _buildSliderPage(sliderController.sliderList),
                 );
               },
             ),
@@ -129,12 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPageIndicator() {
     return GetBuilder<SliderController>(
-      builder: (_) {
-        if (!_sliderController.sliderListRequestInProgress &&
-            _sliderController.sliderListLength > 0) {
+      builder: (sliderController) {
+        if (!sliderController.sliderListRequestInProgress &&
+            sliderController.sliderListLength > 0) {
           return SmoothPageIndicator(
             controller: _pageViewController,
-            count: _sliderController.sliderListLength,
+            count: sliderController.sliderListLength,
             effect: const WormEffect(),
           );
         } else {

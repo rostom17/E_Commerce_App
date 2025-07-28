@@ -38,13 +38,16 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     _bottomNavController.selectedIndex.value = 0;
   }
 
-  @override
-  void initState() {
+  Future<void> fetchData() async {
     Get.find<SliderController>().getSliderData();
     Get.find<CategoryListController>().getCategoryList();
     Get.find<BrandListController>().getBrandListRequest();
     Get.find<ProductListController>().getProductList();
+  }
 
+  @override
+  void initState() {
+    fetchData();
     super.initState();
   }
 
