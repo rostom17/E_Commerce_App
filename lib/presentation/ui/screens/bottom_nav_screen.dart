@@ -73,64 +73,61 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   Obx _buildBottomNavBar() {
     return Obx(
-      () => Padding(
-        padding: const EdgeInsets.only(bottom: 12, left: 22, right: 22),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(.2),
-                  blurRadius: 5,
-                  offset: const Offset(double.maxFinite, -10),
-                )
-              ],
-            ),
-            child: NavigationBar(
-              backgroundColor: Colors.transparent,
-              surfaceTintColor: Colors.black,
-              height: 70,
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-              selectedIndex: _bottomNavController.selectedIndex.value,
-              onDestinationSelected: (index) =>
-                  _bottomNavController.selectedIndex.value = index,
-              destinations: [
-                NavigationDestination(
+      () => ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(.2),
+                blurRadius: 5,
+                offset: const Offset(double.maxFinite, -10),
+              )
+            ],
+          ),
+          child: NavigationBar(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.black,
+            height: 70,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+            selectedIndex: _bottomNavController.selectedIndex.value,
+            onDestinationSelected: (index) =>
+                _bottomNavController.selectedIndex.value = index,
+            destinations: [
+              NavigationDestination(
+                icon: Icon(
+                  Iconsax.home,
+                  color: _bottomNavController.selectedIndex.value == 0
+                      ? AppColorTheme.appColorTheme
+                      : Colors.black,
+                ),
+                label: 'Home',
+              ),
+              NavigationDestination(
                   icon: Icon(
-                    Iconsax.home,
-                    color: _bottomNavController.selectedIndex.value == 0
+                    Iconsax.element_4,
+                    color: _bottomNavController.selectedIndex.value == 1
                         ? AppColorTheme.appColorTheme
                         : Colors.black,
                   ),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                    icon: Icon(
-                      Iconsax.element_4,
-                      color: _bottomNavController.selectedIndex.value == 1
-                          ? AppColorTheme.appColorTheme
-                          : Colors.black,
-                    ),
-                    label: 'Category'),
-                NavigationDestination(
-                    icon: Icon(
-                      Iconsax.shopping_cart,
-                      color: _bottomNavController.selectedIndex.value == 2
-                          ? AppColorTheme.appColorTheme
-                          : Colors.black,
-                    ),
-                    label: 'Cart'),
-                NavigationDestination(
-                    icon: Icon(
-                      Iconsax.gift,
-                      color: _bottomNavController.selectedIndex.value == 3
-                          ? AppColorTheme.appColorTheme
-                          : Colors.black,
-                    ),
-                    label: 'Wish List'),
-              ],
-            ),
+                  label: 'Category'),
+              NavigationDestination(
+                  icon: Icon(
+                    Iconsax.shopping_cart,
+                    color: _bottomNavController.selectedIndex.value == 2
+                        ? AppColorTheme.appColorTheme
+                        : Colors.black,
+                  ),
+                  label: 'Cart'),
+              NavigationDestination(
+                  icon: Icon(
+                    Iconsax.gift,
+                    color: _bottomNavController.selectedIndex.value == 3
+                        ? AppColorTheme.appColorTheme
+                        : Colors.black,
+                  ),
+                  label: 'Wish List'),
+            ],
           ),
         ),
       ),

@@ -4,11 +4,7 @@ class Urls {
   static const sliderProductListURL = "$_baseUrl/slides";
   static const categoryListURL = "$_baseUrl/categories";
   static const brandListURL = "$_baseUrl/brands";
-
-  static const _productListByRemark = "$_baseUrl/ListProductByRemark";
-  static const productListByRemarkPopularURL = "$_productListByRemark/popular";
-  static const productListByRemarkNewURL = "$_productListByRemark/new";
-  static const productListByRemarkRegularURL = "$_productListByRemark/regular";
+  static const productsURL = "$_baseUrl/products";
 
   static const loginURL = "$_baseUrl/auth/login";
   static const signUpURL = "$_baseUrl/auth/signup";

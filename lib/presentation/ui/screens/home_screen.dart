@@ -1,15 +1,12 @@
+import 'package:e_commerce_app/data/models/product_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:e_commerce_app/data/models/product_list_data_model.dart';
 import 'package:e_commerce_app/data/models/slider_data_model.dart';
-import 'package:e_commerce_app/presentation/state_holders/bottom_nav_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/brand_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/product_list_controller.dart';
 import 'package:e_commerce_app/presentation/state_holders/slider_controller.dart';
-import 'package:e_commerce_app/presentation/ui/screens/product_list_screen.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/category_card_widget.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/product_card_widget.dart';
 import 'package:e_commerce_app/presentation/ui/widgets/search_bar_widget.dart';
@@ -65,7 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 16,
             ),
             GetBuilder<ProductListController>(builder: (controller) {
-              return _productBuilder(controller.productListPopular);
+              return _productBuilder(
+                  List.from(controller.productList)..shuffle());
             }),
             const SizedBox(
               height: 16,
@@ -75,18 +73,20 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 16,
             ),
             GetBuilder<ProductListController>(builder: (controller) {
-              return _productBuilder(controller.productListNew);
+              return _productBuilder(controller.productList);
             }),
             const SizedBox(
               height: 16,
             ),
-            _buildSection(context, "Regular"),
+            _buildSection(context, "Recomended"),
             const SizedBox(
               height: 16,
             ),
             GetBuilder<ProductListController>(
               builder: (controller) {
-                return _productBuilder(controller.productListRegular);
+                controller.productList.shuffle();
+                return _productBuilder(
+                    List.from(controller.productList)..shuffle());
               },
             ),
             const SizedBox(
@@ -153,21 +153,21 @@ class _HomeScreenState extends State<HomeScreen> {
         const Spacer(),
         TextButton(
           onPressed: () {
-            if (name == "All Categories") {
-              Get.find<BottomNavController>().selectedIndex.value = 1;
-            } else if (name == "Popular") {
-              Get.to(ProductListScreen(
-                  productList:
-                      Get.find<ProductListController>().productListPopular));
-            } else if (name == "New") {
-              Get.to(ProductListScreen(
-                  productList:
-                      Get.find<ProductListController>().productListNew));
-            } else if (name == "Regular") {
-              Get.to(ProductListScreen(
-                  productList:
-                      Get.find<ProductListController>().productListRegular));
-            }
+            // if (name == "All Categories") {
+            //   Get.find<BottomNavController>().selectedIndex.value = 1;
+            // } else if (name == "Popular") {
+            //   Get.to(ProductListScreen(
+            //       productList:
+            //           Get.find<ProductListController>().productListPopular));
+            // } else if (name == "New") {
+            //   Get.to(ProductListScreen(
+            //       productList:
+            //           Get.find<ProductListController>().productListNew));
+            // } else if (name == "Regular") {
+            //   Get.to(ProductListScreen(
+            //       productList:
+            //           Get.find<ProductListController>().productListRegular));
+            // }
           },
           child: Text(
             'See All',
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox _productBuilder(List<ProductListDataModel> productList) {
+  SizedBox _productBuilder(List<ProductDetailsModel> productList) {
     return SizedBox(
       height: 160,
       child: ListView.separated(
@@ -248,12 +248,5 @@ ClipRRect _createPage(String imageLink) {
         ),
       ),
     ),
-  );
-}
-
-ClipRRect _createPageWithoutImage(Color color) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(16),
-    child: Container(color: color),
   );
 }

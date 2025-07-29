@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/data/models/product_list_data_model.dart';
+import 'package:e_commerce_app/data/models/product_details_model.dart';
 import 'package:e_commerce_app/presentation/ui/screens/product_details_screen.dart';
 import 'package:e_commerce_app/presentation/ui/utilities/app_color_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,11 +11,12 @@ class ProductCardWidget extends StatelessWidget {
     required this.product,
   });
 
-  final ProductListDataModel product;
+  final ProductDetailsModel product;
 
   @override
   Widget build(BuildContext context) {
-    bool _favourite = false;
+    bool favourite = false;
+    List<String> photos = product.photos ?? [];
 
     return InkWell(
       onTap: () {
@@ -37,7 +38,9 @@ class ProductCardWidget extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
                 image: DecorationImage(
-                  image: NetworkImage(product.image!),
+                  image: NetworkImage(photos.isNotEmpty
+                      ? photos[0]
+                      : "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -45,7 +48,8 @@ class ProductCardWidget extends StatelessWidget {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(left: 5),
-              child: product.title!.length >= 10 ? Text("${product.title!.substring(0, 10)}...")
+              child: product.title!.length >= 10
+                  ? Text("${product.title!.substring(0, 10)}...")
                   : Text(product.title!),
             ),
             const Spacer(),
@@ -54,7 +58,7 @@ class ProductCardWidget extends StatelessWidget {
               child: Wrap(
                 children: [
                   Text(
-                    '\$${product.price!}',
+                    '\$${product.currentPrice}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(
@@ -66,7 +70,7 @@ class ProductCardWidget extends StatelessWidget {
                     size: 16,
                   ),
                   Text(
-                    '${product.star}',
+                    '${product.quantity}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(
@@ -74,10 +78,10 @@ class ProductCardWidget extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      _favourite = !_favourite;
+                      favourite = !favourite;
                     },
                     child: Icon(
-                      _favourite == true
+                      favourite == true
                           ? CupertinoIcons.heart
                           : CupertinoIcons.heart_fill,
                       size: 16,
