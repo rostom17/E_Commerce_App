@@ -27,14 +27,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    if (Get.arguments != null) {
+      _retriveUserData();
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: _buildDrawer(),
       body: SingleChildScrollView(
         child: Stack(
           children: [
             _buildTopGradiantDesign(),
-            //_buildAppDrawerFuntionality(),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,7 +108,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   width: 8,
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.toNamed('/signUpScreen');
+                                  },
                                   child: const Text(
                                     "Sign Up",
                                     style: TextStyle(

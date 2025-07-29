@@ -1,53 +1,61 @@
+import 'package:e_commerce_app/data/models/user_models/login_model.dart';
 import 'package:e_commerce_app/data/services/network_response.dart';
 import 'package:e_commerce_app/data/services/network_callers.dart';
+import 'package:e_commerce_app/data/services/secure_storage_service.dart';
 import 'package:e_commerce_app/data/utilities/urls.dart';
-import 'package:e_commerce_app/presentation/state_holders/auth_controller/read_profile_controller.dart';
 import 'package:get/get.dart';
 
 class OtpVerificationController extends GetxController {
   String? msg;
   String? token;
+  late bool isSuccessful;
+  int _statusCode = -1;
 
   bool optVerificationInProgress = false;
 
   String? _errorMessage;
 
-  Future<int> otpVerificationRequest (String email, String otp) async {
-    int hint = 0;
-    // 0 = unsuccessful
-    // 1 = successful but profileData = null
-    // 2 = successful and has profileData
+  Future<bool> otpVerificationRequest(
+      {required String email, required String otp}) async {
     optVerificationInProgress = true;
     update();
 
-    NetworkResponse response = await NetworkCallers.getRequest("${Urls.otpVerificationURL}$email/$otp");
+    Map<String, String> body = {"email": email, "otp": otp};
 
-    if(response.isSuccessful) {
+    NetworkResponse response =
+        await NetworkCallers.postRequest(Urls.otpVerificationURL, null, body);
+
+    if (response.isSuccessful) {
       _errorMessage = null;
       msg = response.responseData['msg'];
-      if(msg == 'fail') {
-        _errorMessage = "Server has ran into some trouble! Please Try again Letter";
-        return 0;
-      } else {
-        token = response.responseData['data'];
-        int result = await Get.find<ReadProfileController>().readProfileRequest("$token");
-        optVerificationInProgress = false;
-        update();
-        return result;
+      isSuccessful = true;
+      _statusCode = response.statusCode;
+
+      LoginModel loginModel = LoginModel.fromJson(response.responseData);
+      if (loginModel.data != null) {
+        final token = loginModel.data!.token;
+        final user = loginModel.data!.user;
+
+        if (token != null && user != null) {
+          SecureStorageService.storeAuthCredentials(token: token);
+          SecureStorageService.saveUserData(user);
+          print(token);
+        }
       }
-    }
-    else {
+    } else {
       _errorMessage = response.errorMessage;
+      isSuccessful = false;
+      _statusCode = response.statusCode;
     }
 
     optVerificationInProgress = false;
     update();
-    return hint;
+    return isSuccessful;
   }
 
   String? get errorMessage => _errorMessage;
 
   String? get accessToken => token;
 
-
+  int get statusCode => _statusCode;
 }

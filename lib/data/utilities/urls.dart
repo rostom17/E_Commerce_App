@@ -11,7 +11,8 @@ class Urls {
   static const productListByRemarkRegularURL = "$_productListByRemark/regular";
 
   static const loginURL = "$_baseUrl/auth/login";
-  static const otpVerificationURL = "$_baseUrl/VerifyLogin/";
+  static const signUpURL = "$_baseUrl/auth/signup";
+  static const otpVerificationURL = "$_baseUrl/auth/verify-otp";
   static const logoutURL = "$_baseUrl/logout/";
 
   static const readProfileURL = "$_baseUrl/ReadProfile";

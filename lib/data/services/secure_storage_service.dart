@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/data/models/user_models/user_data.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
-class SecureStorageService  {
+class SecureStorageService {
   static const _storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
       iOptions: IOSOptions(
