@@ -41,6 +41,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: Stack(
           children: [
             _buildTopGradiantDesign(),
+            Positioned(
+                top: 50,
+                left: 10,
+                child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                    ))),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
